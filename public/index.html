@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Campus Crowd Monitoring</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+</head>
+<body>
+
+  <div id="alerts-container"></div>
+  
+  <div class="settings-modal" id="settings-modal">
+    <div class="modal-content">
+      <h2>Settings Configuration</h2>
+      <div id="zone-configs"></div>
+      <button onclick="saveConfig()">Save Changes</button>
+      <button onclick="closeSettings()" class="secondary">Cancel</button>
+    </div>
+  </div>
+
+  <div class="side-panel" id="side-panel">
+    <div class="panel-header">
+      <h3 id="panel-title">Devices</h3>
+      <button onclick="closePanel()">×</button>
+    </div>
+    <div class="panel-content">
+      <table id="device-table">
+        <thead>
+          <tr>
+            <th>MAC Address</th>
+            <th>Signal (dBm)</th>
+            <th>Dist (m)</th>
+            <th>Dwell Time</th>
+          </tr>
+        </thead>
+        <tbody id="device-list"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="container">
+    <header class="stats-header">
+      <div class="stat-box">
+        <label>Total Campus Devices</label>
+        <h2 id="total-devices">0</h2>
+      </div>
+      <div class="stat-box">
+        <label>Most Crowded</label>
+        <h2 id="most-crowded">-</h2>
+      </div>
+      <div class="stat-box">
+        <label>Least Crowded</label>
+        <h2 id="least-crowded">-</h2>
+      </div>
+      <div class="stat-box status-box">
+        <label>System Status</label>
+        <div class="status-badge" id="system-status">CONNECTING</div>
+        <div class="ping" id="ping-latency">Ping: - ms</div>
+      </div>
+      <div class="settings-trigger" onclick="openSettings()">⚙️ Settings</div>
+    </header>
+
+    <div class="dashboard-grid">
+      <!-- Section 1: Heatmap -->
+      <section class="panel heatmap-sec">
+        <div class="panel-head">
+          <h3>Live Occupancy Heatmap</h3>
+          <span class="refresh-badge">Refreshed every 5s</span>
+        </div>
+        <div class="cards-grid" id="zone-cards">
+          <!-- Cards injected via JS -->
+        </div>
+        <div class="legend">
+          <span>Low</span>
+          <div class="gradient-bar"></div>
+          <span>High</span>
+        </div>
+      </section>
+
+      <!-- Section 2: Minute Chart -->
+      <section class="panel chart-sec">
+        <div class="panel-head">
+          <h3>Minute Occupancy (Last 60 Mins)</h3>
+          <span class="refresh-badge">Refreshed every 5s</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="hourlyChart"></canvas>
+        </div>
+      </section>
+
+      <!-- Section 3: Movement Flow -->
+      <section class="panel flow-sec">
+        <div class="panel-head">
+          <h3>Movement Flow (Last 30s)</h3>
+          <span class="refresh-badge">Refreshed every 30s</span>
+        </div>
+        <div id="sankey-diagram" class="sankey-container"></div>
+        <div class="flow-summary" id="flow-summary"></div>
+      </section>
+
+      <!-- Section 4: Dwell Time Tracker -->
+      <section class="panel dwell-sec">
+        <div class="panel-head">
+          <h3>Dwell Time Tracker</h3>
+          <span class="refresh-badge">Refreshed every 5s</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="dwellChart"></canvas>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

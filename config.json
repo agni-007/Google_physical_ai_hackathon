@@ -1,0 +1,17 @@
+{
+  "1": {
+    "name": "Node 1",
+    "maxCapacity": 20,
+    "alertThreshold": 85
+  },
+  "2": {
+    "name": "Node 2",
+    "maxCapacity": 150,
+    "alertThreshold": 85
+  },
+  "3": {
+    "name": "Node 3",
+    "maxCapacity": 100,
+    "alertThreshold": 85
+  }
+}
